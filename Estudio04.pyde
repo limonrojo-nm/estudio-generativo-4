@@ -1,5 +1,7 @@
 from zlib import c, DibujoPrincipal
-dibujo_principal = DibujoPrincipal([])
+from dibujo import ParticulaFactory
+
+dibujo_principal = DibujoPrincipal([ParticulaFactory(1000)])
 
 def setup():
     size(c.ancho, c.alto)

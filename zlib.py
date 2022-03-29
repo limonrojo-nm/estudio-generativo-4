@@ -70,7 +70,7 @@ class ConCore:
 
 # -----------------------------------------------------------
 # Value Objects
-class Punto:
+class Posicion:
     def __init__(self, x, y):
         self._x = x
         self._y = y
@@ -78,15 +78,30 @@ class Punto:
     @property
     def x(self): return self._x
     
+    def reasignar_x(self, nueva_x):
+        self._x = nueva_x
+        
     @property
     def y(self): return self._y
 
+    def reasignar_y(self, nueva_y):
+        self._y = nueva_y
+    
+    def reasignar(self, nueva_x, nueva_y):
+        self._x = nueva_x
+        self._y = nueva_y
+    
+    def __str__(self):
+        return "Posicion.x: " + str(self.x) + " Posicion.y: " + str(self.y)
+    
+    
+
 # -----------------------------------------------------------
 # Dibujo
-class Dibujo:
+class Dibujo(ConCore):
     def dibujar(self): levantarExcepcion("ERROR: No implementado", self)
 
-class DibujoPrincipal(Dibujo, ConCore):
+class DibujoPrincipal(Dibujo):
     def __init__(self, dibujos):
         """
         @dibujos: [Dibujo]
@@ -106,6 +121,14 @@ class DibujoPrincipal(Dibujo, ConCore):
             noStroke()
             rect(0, 0, self.c.ancho, self.c.alto)
             popStyle()
+
+# -----------------------------------------------------------
+# Mixins
+class ConPosicion:
+    _posicion = None
+    
+    @property
+    def posicion(self): return self._posicion
 
 
 # -----------------------------------------------------------
@@ -130,3 +153,29 @@ class ExportadorDeFotogramas:
     
     def exportar_fin(self):
         save("output/FINAL-" + self._codigo_seq + ".png")
+
+class GenaradorRuido:
+    _noise_offset = 0.0
+    
+    def __init__(self, incremento, amplitud_fija=1):
+        self._incremento = incremento
+        self._amplitud_fija = amplitud_fija
+        self._semilla_random = int(random(90000))
+        
+    
+    def __call__(self):
+        self._incrementar_offset()
+        noiseSeed(self._semilla_random)
+        return noise(self.noise_offset)
+    
+    @property
+    def incremento(self): return self._incremento
+    
+    @property
+    def amplitud_fija(self): return self._amplitud_fija
+    
+    @property
+    def noise_offset(self): return self._noise_offset
+    
+    def _incrementar_offset(self):
+        self._noise_offset += self.incremento
