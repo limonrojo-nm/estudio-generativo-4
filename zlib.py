@@ -133,26 +133,26 @@ class ConPosicion:
 
 # -----------------------------------------------------------
 # Utils
-class ExportadorDeFotogramas:
-    def __init__(self, core, frecuencia_exportacion=1, ceros_n_fotograma=5):
-        self._c = core
+class ExportadorDeFotogramas(ConCore):
+    def __init__(self, frecuencia_exportacion=1, ceros_n_fotograma=5):
+        
         self._frecuencia_exportacion = frecuencia_exportacion
         self._ceros_n_fotograma = ceros_n_fotograma
         self._codigo_seq = str(random(99999)).zfill(5)
     
-    @property
-    def c(self): return self._c
     @property
     def frecuencia_exportacion(self): return self._frecuencia_exportacion
     @property
     def ceros_n_fotograma(self): return self._ceros_n_fotograma
     
     def __call__(self):
-        if (self.c.n_fotograma % self.frecuencia_exportacion) == 0:
-            save("frames/" + self._codigo_seq + "/" + str(self.c.n_fotograma).zfill(self.ceros_n_fotograma) + ".png")
+        if (self.c.fotograma % self.frecuencia_exportacion) == 0:
+            save("frames/" + self._codigo_seq + "/" + str(self.c.fotograma).zfill(self.ceros_n_fotograma) + ".png")
     
     def exportar_fin(self):
         save("output/FINAL-" + self._codigo_seq + ".png")
+
+
 
 class GenaradorRuido:
     _noise_offset = 0.0

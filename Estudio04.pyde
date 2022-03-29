@@ -1,7 +1,10 @@
-from zlib import c, DibujoPrincipal
+from zlib import c, DibujoPrincipal, ExportadorDeFotogramas
 from dibujo import ParticulaFactory
 
-dibujo_principal = DibujoPrincipal([ParticulaFactory(1000)])
+dibujo_principal = DibujoPrincipal([ParticulaFactory(200)])
+exportador_fotogramas = ExportadorDeFotogramas(1)
+
+
 
 def setup():
     size(c.ancho, c.alto)
@@ -11,4 +14,4 @@ def setup():
 def draw():
     dibujo_principal.dibujar()
     c.procesar_fotograma()
-    # exportador_fotogramas()
+    exportador_fotogramas()
