@@ -5,7 +5,7 @@ from zlib import Dibujo, ConPosicion, Posicion, GenaradorRuido
 class Particula(Dibujo, ConPosicion):
     _conectada = False
     _amplitud_ruido = 3
-    _alimento = 100
+    _vitalidad = 20
     
     def __init__(self):
         self._ngen_x = GenaradorRuido(0.02)
@@ -15,8 +15,9 @@ class Particula(Dibujo, ConPosicion):
         self._randomizar_posicion()
         
         
-    
-    def dibujar(self):
+    def alimentar(self): self._vitalidad += random(.2, 1)
+     
+    def dibujar(self, factory):
         self._randomizar_posicion()
         pushStyle()
         stroke(10)
@@ -26,8 +27,10 @@ class Particula(Dibujo, ConPosicion):
         noFill()
         strokeWeight(3)
         circle(self.posicion.x,
-              self.posicion.y, self._ngen_circ()*30)
+              self.posicion.y, self._ngen_circ()*30+self._vitalidad)
         popStyle()
+        
+        self._cansarse(factory)
     
     def conectar(self, hermana):
         pushStyle()
@@ -38,7 +41,7 @@ class Particula(Dibujo, ConPosicion):
               hermana.posicion.x,
               hermana.posicion.y)
         popStyle()
-        # hermana.alimentar()
+        hermana.alimentar()
     
     
     
@@ -55,6 +58,10 @@ class Particula(Dibujo, ConPosicion):
         self.posicion.reasignar(r_x, r_y)
 
 
+    def _cansarse(self, factory):
+        self._vitalidad -= random(.2, 1)
+        if self._vitalidad < 0:
+            factory._particulas.remove(self)
 
 
 
@@ -67,7 +74,7 @@ class ParticulaFactory(Dibujo):
     def dibujar(self):
         # hermana_anterior = None
         for particula in self._particulas:
-            particula.dibujar()
+            particula.dibujar(self)
             particula.conectar(self.mas_cercana(particula))
             # if hermana_anterior is not None:
             #     particula.conectar(hermana_anterior)

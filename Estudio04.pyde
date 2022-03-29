@@ -1,7 +1,7 @@
 from zlib import c, DibujoPrincipal, ExportadorDeFotogramas
 from dibujo import ParticulaFactory
 
-dibujo_principal = DibujoPrincipal([ParticulaFactory(200)])
+dibujo_principal = DibujoPrincipal([ParticulaFactory(50)])
 exportador_fotogramas = ExportadorDeFotogramas(1)
 
 
