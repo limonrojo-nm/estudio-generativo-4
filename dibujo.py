@@ -1,4 +1,7 @@
-from zlib import Dibujo, ConPosicion, Posicion
+from zlib import Dibujo, ConPosicion, Posicion, GenaradorRuido
+
+ngen_x = GenaradorRuido(0.001)
+ngen_y = GenaradorRuido(0.001)
 
 class Particula(Dibujo, ConPosicion):
     def __init__(self):
