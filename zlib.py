@@ -99,7 +99,7 @@ class Posicion:
 # -----------------------------------------------------------
 # Dibujo
 class Dibujo(ConCore):
-    def dibujar(self): levantarExcepcion("ERROR: No implementado", self)
+    def procesar_fotograma(self): levantarExcepcion("ERROR: No implementado", self)
 
 class DibujoPrincipal(Dibujo):
     def __init__(self, dibujos):
@@ -108,10 +108,10 @@ class DibujoPrincipal(Dibujo):
         """
         self.dibujos = dibujos
     
-    def dibujar(self):
+    def procesar_fotograma(self):
         self._manejar_reset_fondo()
         for dibujo in self.dibujos:
-            dibujo.dibujar()
+            dibujo.procesar_fotograma()
     
     # Privados ---------------
     def _manejar_reset_fondo(self):
